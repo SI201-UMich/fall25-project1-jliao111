@@ -6,3 +6,23 @@ Course: SI 201
 Collaborators: None
 GenAI Use: Used ChatGPT to draft initial code, debug and explain concepts
 """
+import csv
+
+# ------------------------------------------------------------
+# Function 1: Read the CSV file
+# ------------------------------------------------------------
+def read_penguin_data():
+    """
+    Reads the penguins.csv file and returns a list of dictionaries.
+    Each dictionary represents a single penguin entry.
+    """
+    penguins = []
+    with open("penguins.csv", "r", encoding="utf-8") as file:
+        reader = csv.DictReader(file)
+        for row in reader:
+            penguins.append({
+                "species": row["species"],
+                "island": row["island"],
+                "year": int(row["year"]) if row["year"].isdigit() else None
+            })
+    return penguins
