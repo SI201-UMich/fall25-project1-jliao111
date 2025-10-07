@@ -8,9 +8,8 @@ GenAI Use: Used ChatGPT to draft initial code, debug and explain concepts
 """
 import csv
 
-# ------------------------------------------------------------
 # Function 1: Read the CSV file
-# ------------------------------------------------------------
+
 def read_penguin_data():
     """
     Reads the penguins.csv file and returns a list of dictionaries.
@@ -26,3 +25,16 @@ def read_penguin_data():
                 "year": int(row["year"]) if row["year"].isdigit() else None
             })
     return penguins
+
+# Function 2: Count penguins by species and island
+
+def count_penguins_by_species_island(penguin_records):
+    """
+    Counts amount of penguins that belong to each species on each island.
+    Returns a dictionary where keys are (species, island) pairs.
+    """
+    counts = {}
+    for penguin in penguin_records:
+        key = (penguin["species"], penguin["island"])
+        counts[key] = counts.get(key, 0) + 1
+    return counts
