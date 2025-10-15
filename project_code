@@ -5,6 +5,12 @@ Email: jullia@umich.edu
 Course: SI 201
 Collaborators: None
 GenAI Use: Used ChatGPT to draft initial code, debug and explain concepts
+Brief Note: In my final code, I slightly updated some of the function names from my
+original diagram to make them more descriptive. Specifically, 
+`read_csv()` was changed to `read_penguin_data()`, 
+`count_penguins_by_data()` was changed to `count_penguins_by_species_island()`, 
+and `penguin_trends()` was changed to `penguin_trends_over_years()`. 
+All functions still perform the same tasks shown in the original diagram.
 """
 import csv
 
@@ -58,3 +64,74 @@ def write_results(filename, results, column1, column2, column3):
 
 #main function
 def main():
+    penguin_data = read_penguin_data()
+    species_island_counts = count_penguins_by_species_island(penguin_data)
+    species_year_trends = penguin_trends_over_years(penguin_data)
+    write_results("penguin_species_island_counts.csv", species_island_counts, "Species", "Island", "Count")
+    write_results("penguin_species_year_trends.csv", species_year_trends, "Species", "Year", "Count")
+    print("Results written to 'penguin_species_island_counts.csv' and 'penguin_species_year_trends.csv'.")
+
+#test cases
+def test_count_penguins_by_species_island():
+    print("\nRunning tests for count_penguins_by_species_island()")
+    # --- General test case 1 ---
+    test_data1 = [
+        {"species": "Adelie", "island": "Torgersen", "year": 2007},
+        {"species": "Adelie", "island": "Torgersen", "year": 2007},
+        {"species": "Gentoo", "island": "Biscoe", "year": 2008}
+    ]
+    result1 = count_penguins_by_species_island(test_data1)
+    print("Test 1 result:", result1)
+    # --- General test case 2 ---
+    test_data2 = [
+        {"species": "Chinstrap", "island": "Dream", "year": 2009},
+        {"species": "Chinstrap", "island": "Dream", "year": 2009},
+        {"species": "Adelie", "island": "Dream", "year": 2009}
+    ]
+    result2 = count_penguins_by_species_island(test_data2)
+    print("Test 2 result:", result2)
+    # --- Edge case 1: Empty list ---
+    test_data3 = []
+    result3 = count_penguins_by_species_island(test_data3)
+    print("Edge Case 1 result:", result3)
+    # --- Edge case 2: Missing island key ---
+    test_data4 = [{"species": "Adelie", "year": 2007}]
+    try:
+        result4 = count_penguins_by_species_island(test_data4)
+        print("Edge Case 2 result:", result4)
+    except KeyError:
+        print("Edge Case 2 result: KeyError (expected, missing island key)")
+
+def test_penguin_trends_over_years():
+    print("\nRunning tests for penguin_trends_over_years()")
+    # --- General test case 1 ---
+    test_data1 = [
+        {"species": "Adelie", "island": "Dream", "year": 2007},
+        {"species": "Adelie", "island": "Dream", "year": 2008},
+        {"species": "Adelie", "island": "Dream", "year": 2008}
+    ]
+    result1 = penguin_trends_over_years(test_data1)
+    print("Test 1 result:", result1)
+    # --- General test case 2 ---
+    test_data2 = [
+        {"species": "Gentoo", "island": "Biscoe", "year": 2008},
+        {"species": "Gentoo", "island": "Biscoe", "year": 2009},
+        {"species": "Gentoo", "island": "Biscoe", "year": 2009}
+    ]
+    result2 = penguin_trends_over_years(test_data2)
+    print("Test 2 result:", result2)
+    # --- Edge case 1: Missing year value ---
+    test_data3 = [
+        {"species": "Adelie", "island": "Dream", "year": None}
+    ]
+    result3 = penguin_trends_over_years(test_data3)
+    print("Edge Case 1 result:", result3)
+
+    # --- Edge case 2: Empty list ---
+    test_data4 = []
+    result4 = penguin_trends_over_years(test_data4)
+    print("Edge Case 2 result:", result4)
+if __name__ == "__main__":
+    main()
+    test_count_penguins_by_species_island()
+    test_penguin_trends_over_years()
